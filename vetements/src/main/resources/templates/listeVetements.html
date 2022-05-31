@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="template">
+      
+<link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<head>
+<meta charset="utf-8">
+<title>Liste des Vetements</title>
+</head>
+<body>
+   <div layout:fragment="Mycontent">
+	<div class="container mt-5">
+		<div class="card">
+			<div class="card-header">Liste des Vetements</div>
+			<div class="card-body">
+			<div class="card-body">
+    <table align='center' width='100%'><tr><td>
+    <!-- 
+                <form class="search-box" th:action="@{search}" method="GET">
+                    </aside>
+                  
+                    <div class="form-group"> 
+                    <label class="control-label">Recherche Vetement Par nom:</label>
+                    <input type="search" id="myInput" name='nom' class="form-control" placeholder="Chercher Vetement..." th:value="${nomVetement}" />
+               <center> <div th:if="${mode=='SearchNom'}">
+      <a th:href="@{ListeVetements}" ><button type="button" class="btn btn-primary">Back</button></a>
+          </div></center>
+            
+                    </div>
+                    </aside>
+                </form>
+                
+		 <form th:action="@{chercherCat}" method="get">
+			<div class="mb-3">
+		 		<div class="from-group">
+		 			<label class="control-label">Categorie</label>
+ 					<select name="idCat" class="form-control" style="width:400px;">
+  						<option th:each="c:${categories}"  th:value="${c.idCat}" th:text="${c.nomCat}"></option>
+					</select>
+		 		</div>
+				<input type="submit" class="btn btn-outline-primary" value="Chercher"> 
+			</div>
+ 		</form>
+  -->
+				<table class="table">
+					<tr>
+						<th>ID</th>
+						<th>Nom Vetement</th>
+						
+						<th>Prix</th>
+						<th>Date de creation</th>
+						<th>Boutique</th><th sec:authorize="hasRole('ADMIN')" >Actions</th><th> </th>
+					</tr>
+					<tr th:each="p:${vetements}">
+						<td th:text="${p.idVetement}"></td>
+						<td th:text="${p.nomVetement}"></td>
+						 
+						<td th:text="${p.prixVetement}"></td> 
+						<td th:text="${p.dateCreation}"></td>
+						<td th:text="${p.categorie.nomCat}"></td>
+						<td sec:authorize="hasRole('ADMIN')"><a class="btn btn-outline-warning" th:href="@{modifierVetement(id=${p.idVetement})}">Editer</a></td> 
+						<td sec:authorize="hasRole('ADMIN')" ><a class="btn btn-outline-danger" onclick="return confirm('Etes-vous sûr ?')"th:href="@{supprimerVetement(id=${p.idVetement},
+										page=${currentPage},size=${size})}">Supprimer</a></td>
+</tr>
+				</table>
+				<ul class="nav nav-pills">
+						<li th:each="page,status:${pages}"><a
+							th:class="${status.index==currentPage?'btn btn-outline-primary':'btn' }"
+							th:href="@{ ListeVetements(page=${status.index}, size=${size} ) }"
+							th:text="${status.index }"></a></li>
+				</ul>
+			</div>
+		</div>
+	 </div>
+	</div>
+</body>
+</html>
